@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureZip - Advanced Encryption Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Darkweb Cyberpunk Animated Overlays -->
+    <div class="darkweb-overlay"></div>
+    <div class="darkweb-noise"></div>
+    <div class="darkweb-grid"></div>
+    <!-- Loading Matrix Animation Overlay -->
+    <div id="matrix-loading-overlay">
+        <canvas id="matrix-loading-canvas"></canvas>
+        <div id="matrix-loading-text"></div>
+    </div>
+    <!-- Animated Matrix Canvas Background -->
+    <div class="matrix-bg">
+        <canvas id="matrix-canvas"></canvas>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Landing Page -->
+        <div id="landingPage" class="page active">
+            <div class="header">
+                <h1 class="title glow-text">
+                    SecureZip
+                </h1>
+                <p class="subtitle">Advanced Encryption & Decryption Platform</p>
+                <p class="description">
+                    Secure your files and text with military-grade encryption.<br>
+                    Your sensitive data is protected using strong, industry-standard algorithms.
+                </p>
+            </div>
+            
+            <div class="main-buttons">
+                <button id="encryptBtn" class="main-btn encrypt-btn">
+                    <div class="btn-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="btn-content">
+                        <h3>Encrypt</h3>
+                        <p>Secure your data</p>
+                    </div>
+                </button>
+                
+                <button id="decryptBtn" class="main-btn decrypt-btn">
+                    <div class="btn-icon">
+                        <i class="fas fa-unlock"></i>
+                    </div>
+                    <div class="btn-content">
+                        <h3>Decrypt</h3>
+                        <p>Restore your data</p>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Encryption Page -->
+        <div id="encryptPage" class="page">
+            <button id="resetBtn" class="reset-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Reset
+                </button>
+            <div class="page-header">
+                <h2 class="page-title">
+                    <i class="fas fa-lock"></i>
+                    Choose Encryption Type
+                </h2>
+            </div>
+
+            <!-- Type Selection -->
+            <div id="typeSelection" class="type-selection">
+                <div class="type-cards">
+                    <div class="type-card" data-type="text">
+                        <div class="card-icon">
+                            <i class="fas fa-file-text"></i>
+                        </div>
+                        <h3>Text</h3>
+                        <p>Encrypt text messages</p>
+                        <div class="checkmark">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="type-card" data-type="file">
+                        <div class="card-icon">
+                            <i class="fas fa-file"></i>
+                        </div>
+                        <h3>File</h3>
+                        <p>Encrypt files (PDF, image, audios, video)</p>
+                        <div class="checkmark">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="type-card" data-type="folder">
+                        <div class="card-icon">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                        <h3>Folder</h3>
+                        <p>Encrypt entire folders</p>
+                        <div class="checkmark">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Algorithm Selection (Hidden - Fernet Only) -->
+            <div id="algorithmSelection" class="algorithm-selection hidden">
+                <!-- Using Fernet encryption only -->
+            </div>
+
+            <!-- Text Input -->
+            <div id="textInput" class="input-section hidden">
+                <h3>Enter Text to Encrypt</h3>
+                <textarea id="inputText" placeholder="Enter your text here..."></textarea>
+                <button id="startEncryption" class="action-btn" disabled>
+                    <i class="fas fa-play"></i>
+                    Start Encryption
+                </button>
+            </div>
+
+            <!-- File/Folder Upload -->
+            <div id="fileUpload" class="input-section hidden">
+                <h3 id="uploadTitle">Select File to Encrypt</h3>
+                <div class="upload-area" id="uploadArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Click to select file or drag & drop</p>
+                    <span class="file-info" id="fileInfo"></span>
+                </div>
+                <button id="startFileEncryption" class="action-btn" disabled>
+                    <i class="fas fa-play"></i>
+                    Start Encryption
+                </button>
+            </div>
+
+            <!-- Encryption Results -->
+            <div id="encryptionResults" class="results-section hidden">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Encryption Complete</h3>
+                <p id="algorithmUsed">Algorithm Used: FERNET</p>
+                
+                <!-- File Path Display -->
+                <div id="filePathSection" class="result-item hidden">
+                    <label>File Location:</label>
+                    <div class="file-path-box">
+                        <span id="filePath"></span>
+                        <div class="file-actions">
+                            <button id="showInFolder" class="file-btn">
+                                <i class="fas fa-folder-open"></i>
+                                Show in Folder
+                            </button>
+                            <button id="downloadFile" class="file-btn download-btn">
+                                <i class="fas fa-download"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-item" id="encryptedTextSection">
+                    <label>Encrypted Text:</label>
+                    <div class="result-box">
+                        <span id="encryptedText"></span>
+                        <button class="copy-btn" data-copy="encrypted">
+                            <i class="fas fa-copy"></i>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Download Actions (Visible for files) -->
+                <div id="downloadSection" class="result-item hidden">
+                    <div class="file-actions">
+                        <button id="downloadEncryptedBtn" class="file-btn download-btn" onclick="downloadEncryptedFile()">
+                            <i class="fas fa-download"></i>
+                            Download Encrypted File
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <label>Encryption Key:</label>
+                    <div class="result-box">
+                        <span id="encryptionKey"></span>
+                        <button class="copy-btn" data-copy="key">
+                            <i class="fas fa-copy"></i>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Keep this key safe! You'll need it to decrypt your data.
+                </div>
+            </div>
+        </div>
+
+        <!-- Decryption Page -->
+        <div id="decryptPage" class="page">
+            <div class="page-header">
+                <button id="resetBtn2" class="reset-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Reset
+                </button>
+                <h2 class="page-title">
+                    <i class="fas fa-unlock"></i>
+                    Choose Decryption Type
+                </h2>
+            </div>
+
+            <!-- Decryption Type Selection -->
+            <div id="decryptTypeSelection" class="type-selection">
+                <div class="type-cards">
+                    <div class="type-card" data-type="text">
+                        <div class="card-icon">
+                            <i class="fas fa-file-text"></i>
+                        </div>
+                        <h3>Text</h3>
+                        <p>Decrypt text messages</p>
+                        <div class="checkmark">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="type-card" data-type="file">
+                        <div class="card-icon">
+                            <i class="fas fa-file"></i>
+                        </div>
+                        <h3>File</h3>
+                        <p>Decrypt encrypted files</p>
+                        <div class="checkmark">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decryption Key Input -->
+            <div id="decryptKeyInput" class="input-section hidden">
+                <h3><i class="fas fa-key"></i> Enter Decryption Key</h3>
+                <textarea id="decryptionKey" placeholder="Enter your decryption key here..."></textarea>
+            </div>
+
+            <!-- Encrypted Text Input -->
+            <div id="encryptedTextInput" class="input-section hidden">
+                <h3>Enter Encrypted Text</h3>
+                <textarea id="encryptedTextArea" placeholder="Paste your encrypted text here..."></textarea>
+                <button id="startDecryption" class="action-btn" disabled>
+                    <i class="fas fa-play"></i>
+                    Start Decryption
+                </button>
+            </div>
+
+            <!-- Encrypted File Upload -->
+            <div id="encryptedFileUpload" class="input-section hidden">
+                <h3>Select Encrypted File</h3>
+                <div class="upload-area" id="encryptedUploadArea">
+                    <i class="fas fa-file-upload"></i>
+                    <p>Click to select encrypted file</p>
+                    <span class="file-info" id="encryptedFileInfo"></span>
+                </div>
+                <button id="startFileDecryption" class="action-btn" disabled>
+                    <i class="fas fa-play"></i>
+                    Start Decryption
+                </button>
+            </div>
+
+            <!-- Decryption Results -->
+            <div id="decryptionResults" class="results-section hidden">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Decryption Complete</h3>
+                
+                <!-- Decrypted File Path Display -->
+                <div id="decryptedFilePathSection" class="result-item hidden">
+                    <label>Decrypted File Location:</label>
+                    <div class="file-path-box">
+                        <span id="decryptedFilePath"></span>
+                        <div class="file-actions">
+                            <button id="showDecryptedInFolder" class="file-btn">
+                                <i class="fas fa-folder-open"></i>
+                                Show in Folder
+                            </button>
+                            <button id="downloadDecryptedFile" class="file-btn download-btn">
+                                <i class="fas fa-download"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-item" id="decryptedTextSection">
+                    <label>Decrypted Text:</label>
+                    <div class="result-box">
+                        <span id="decryptedText"></span>
+                        <button class="copy-btn" data-copy="decrypted">
+                            <i class="fas fa-copy"></i>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Download Actions (Visible for files) -->
+                <div id="downloadDecryptedSection" class="result-item hidden">
+                    <div class="file-actions">
+                        <button id="downloadDecryptedBtn" class="file-btn download-btn" onclick="downloadDecryptedFile()">
+                            <i class="fas fa-download"></i>
+                            Download Decrypted File
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p id="loadingText">Processing...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="toast hidden">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage"></span>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

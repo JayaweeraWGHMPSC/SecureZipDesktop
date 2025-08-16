@@ -1,0 +1,59 @@
+{
+  "name": "securezip",
+  "version": "1.0.0",
+  "description": "Advanced Encryption & Decryption Platform",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win --ia32 --x64",
+    "pack": "electron-builder --dir",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "build": {
+    "appId": "com.securezip.app",
+    "productName": "SecureZip",
+    "copyright": "Copyright © 2025 SecureZip Team",
+    "directories": {
+      "buildResources": "."
+    },
+    "files": [
+      "**/*",
+      "!node_modules/.cache/**"
+    ],
+    "win": {
+      "icon": "icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "SecureZip"
+    }
+  },
+  "devDependencies": {
+    "electron": "^25.0.0",
+    "electron-reload": "^2.0.0-alpha.1"
+  },
+  "dependencies": {
+    "archiver": "^5.3.1",
+    "crypto": "^1.0.1",
+    "extract-zip": "^2.0.1",
+    "node-forge": "^1.3.1"
+  },
+  "keywords": [
+    "encryption",
+    "decryption",
+    "security",
+    "electron"
+  ],
+  "author": "SecureZip Team",
+  "license": "MIT"
+}
